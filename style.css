@@ -1,0 +1,54 @@
+
+svg {
+  margin: 0 auto;
+}
+
+line {
+  stroke: black;
+  stroke-width: 4;
+}
+
+#door1 {
+  transform-origin: 0% 100%;
+}
+
+#door2 {
+  transform-origin: 100% 100%;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+#a1 {
+  visibility: hidden;
+}
+#a2 {
+  visibility: hidden;
+}
+#rope {
+  visibility: hidden;
+}
+#a4 {
+  visibility: hidden;
+}
+#a5 {
+  visibility: hidden;
+}
+#armL {
+  visibility: hidden;
+}
+#armR {
+  visibility: hidden;
+}
+#a8 {
+  visibility: hidden;
+}
+
+#a9 {
+  visibility: hidden;
+}
+
+#container_palabra{
+  display: flex;
+}
