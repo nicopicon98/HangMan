@@ -3,8 +3,6 @@ import Swal from '/dependencies/sweetalert2/src/sweetalert2.js'
 import { dropBody } from './functions.js'
 
 
-
-
 export class HangMan {
   constructor(line1, line2, rope, line4, line5, armL, armR, line8, line9, formulario, hintButton) {
     this.linesArray = [line1, line2, rope, line4, line5, armL, armR, line8, line9];
@@ -30,7 +28,7 @@ export class HangMan {
     this.randomSplittedWord = ""
     this.pass = ""
   }
-
+  //Example
   async __str__() {
     this.array_words = await this.randomArray()
     console.log(this.array_words)
@@ -53,9 +51,10 @@ export class HangMan {
   eventListeners() {
     document.addEventListener('DOMContentLoaded', async () => {
       this.pass = await this.randomArray() // definimos un array especifico cuando el documento es cargado
-      // this.guessedWord(this.pass.word);
       this.onLoadShowLines()
-      this.formulario.addEventListener('submit', () => this.letterHandler(this.pass));
+      this.formulario.addEventListener('submit', () => {
+        this.letterHandler(this.pass)
+      });
       this.hintButton.addEventListener('click', () => this.hintButtonHandler(this.pass));
     })
   }
@@ -67,7 +66,7 @@ export class HangMan {
       `;
   }
 
-  async guessedWord(word) {
+  guessedWord(word) {
     this.word = word
     this.randomSplittedWord = this.word.split("")
     this.wordStatus = this.word.split("").map(lt => (this.guessed.indexOf(lt) >= 0 ? lt : " _ ")).join(''); //line 150
@@ -157,9 +156,28 @@ export class HangMan {
     console.log(this.countHint)
     if (this.countHint === 1) {
       document.getElementById('hint').innerHTML = `
-      <p> <strong> First Letter: </strong>  ${this.firstLetter} </p>
+        <table class="table table-bordered pt-5">
+          <thead>
+            <tr>
+              <th scope="col">No. Hint</th>
+              <th scope="col">Type</th>
+              <th scope="col">Hint</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">${this.countHint}</th>
+              <td>First Letter</td>
+              <td>${this.firstLetter}</td>
+            </tr>
+          </tbody>
+        </table>
      `;
+      //changing button properties and content
       this.hintButton.innerHTML = `${this.attempts - this.countHint} Hints left!`
+      this.hintButton.classList.remove("btn-success");
+      this.hintButton.classList.add("btn-warning");
+
       this.randomSplittedWord = this.array_words.word.split("")
       this.guessed.indexOf(this.firstLetter) === -1 ? this.guessed.push(this.firstLetter) : null; // Si ya existe, null
       this.wordStatusHint = this.randomSplittedWord.map(lt => (this.guessed.indexOf(lt) >= 0 ? lt : " _ ")).join('');
@@ -170,18 +188,66 @@ export class HangMan {
     }
     if (this.countHint === 2) {
       document.getElementById('hint').innerHTML = `
-      <p> <strong> First Letter: </strong>  ${this.firstLetter} </p>
-      <p> <strong> Definition NOT reliable xd : </strong> ${this.randomDefinitionWiky} </p>
+      <table class="table table-bordered pt-5">
+          <thead>
+            <tr>
+              <th scope="col">No. Hint</th>
+              <th scope="col">Type</th>
+              <th scope="col">Hint</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">${this.countHint - 1}</th>
+              <td>First Letter</td>
+              <td>${this.firstLetter}</td>
+            </tr>
+            <tr>
+              <th scope="row">${this.countHint}</th>
+              <td>Definition NOT reliable xd</td>
+              <td><a href="${this.randomDefinitionWiky}" target="_blank"> Wikipedia Definition </a></td>
+            </tr>
+          </tbody>
+        </table>
      `;
+     //changing button properties and content
       this.hintButton.innerHTML = `${this.attempts - this.countHint} Hints left!`
+      this.hintButton.classList.remove("btn-warning");
+      this.hintButton.classList.add("btn-danger");
     }
     if (this.countHint === 3) {
       document.getElementById('hint').innerHTML = `
-      <p> <strong> First Letter: </strong>  ${this.firstLetter} </p>
-      <p> <strong> Definition NOT reliable xd : </strong> ${this.randomDefinitionWiky} </p>
-      <p> <strong> Definition NOT reliable either but, it's not wikipedia so, it's more reliable xd: </strong> ${this.randomDefinitionWikti} </p>
-     `;
+      <table class="table table-bordered pt-5">
+          <thead>
+            <tr>
+              <th scope="col">No. Hint</th>
+              <th scope="col">Type</th>
+              <th scope="col">Hint</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">${this.countHint - 2}</th>
+              <td>First Letter</td>
+              <td>${this.firstLetter}</td>
+            </tr>
+            <tr>
+              <th scope="row">${this.countHint - 1}</th>
+              <td>Definition NOT reliable xd</td>
+              <td><a href="${this.randomDefinitionWiky}" target="_blank"> Wikipedia Definition </a></td>
+            </tr>
+            <tr>
+              <th scope="row">${this.countHint}</th>
+              <td>Definition NOT reliable either but, it's not wikipedia so, it's more reliable xd</td>
+              <td><a href="${this.randomDefinitionWikti}" target="_blank"> Wiktionary Definition </a></td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+     //changing button properties and content
       this.hintButton.innerHTML = `${this.attempts - this.countHint} Hints left!`
+      this.hintButton.classList.remove("btn-danger");
+      this.hintButton.classList.add("btn-secondary");
     }
     if (this.countHint > 3) {
       Swal.fire('Sorry folk, no more hints :(')
