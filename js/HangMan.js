@@ -1,6 +1,6 @@
 import { UsingFetch } from './usingFetch.js'
 import Swal from '/dependencies/sweetalert2/src/sweetalert2.js'
-import { dropBody } from './functions.js'
+import { dropBody } from './queryFunctions.js'
 
 
 export class HangMan {
@@ -158,7 +158,7 @@ export class HangMan {
       document.getElementById('hint').innerHTML = `
         <table class="table table-bordered pt-5">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th scope="col">No. Hint</th>
               <th scope="col">Type</th>
               <th scope="col">Hint</th>
@@ -190,14 +190,14 @@ export class HangMan {
       document.getElementById('hint').innerHTML = `
       <table class="table table-bordered pt-5">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th scope="col">No. Hint</th>
               <th scope="col">Type</th>
               <th scope="col">Hint</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr class="table-warning">
               <th scope="row">${this.countHint - 1}</th>
               <td>First Letter</td>
               <td>${this.firstLetter}</td>
@@ -219,14 +219,14 @@ export class HangMan {
       document.getElementById('hint').innerHTML = `
       <table class="table table-bordered pt-5">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th scope="col">No. Hint</th>
               <th scope="col">Type</th>
               <th scope="col">Hint</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr class="table-warning"">
               <th scope="row">${this.countHint - 2}</th>
               <td>First Letter</td>
               <td>${this.firstLetter}</td>
@@ -236,7 +236,7 @@ export class HangMan {
               <td>Definition NOT reliable xd</td>
               <td><a href="${this.randomDefinitionWiky}" target="_blank"> Wikipedia Definition </a></td>
             </tr>
-            <tr>
+            <tr class="table-danger">
               <th scope="row">${this.countHint}</th>
               <td>Definition NOT reliable either but, it's not wikipedia so, it's more reliable xd</td>
               <td><a href="${this.randomDefinitionWikti}" target="_blank"> Wiktionary Definition </a></td>
