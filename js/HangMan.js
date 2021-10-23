@@ -1,4 +1,4 @@
-import { UsingFetch } from './usingFetch.js'
+import { UsingFetch } from './UsingFetch.js'
 import Swal from '/dependencies/sweetalert2/src/sweetalert2.js'
 import DropBodyClass from './DropBodyClass.js'
 
