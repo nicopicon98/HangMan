@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./dependencies/sweetalert2/dist/sweetalert2.css">
+    <link
+      rel="stylesheet"
+      href="./dependencies/sweetalert2/dist/sweetalert2.css"
+    />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/custom.css" />
     <title>Hangman</title>
   </head>
   <body>
-    <div class="bg-success text-center pt-3">
-      <h1>Hangman</h1>
+    <div class="text-center pt-3 mt-3">
+      <h1 style="color: black; font-size: 4em; font-weight: bold">
+        Welcome to HANGMAN
+      </h1>
     </div>
     <div class="container text-center" id="container">
       <svg height="400" width="400" class="pt-5">
@@ -65,7 +70,9 @@
       <div class="word text-center pt-5">
         <h1 id="wordToGuess"></h1>
       </div>
-      <button type="submit" class="btn btn-success mt-5" id="hintButton">Hint!</button>
+      <button type="submit" class="btn btn-success mt-5" id="hintButton">
+        Hint!
+      </button>
       <div class="word text-center pt-5" id="hint"></div>
     </div>
     <script

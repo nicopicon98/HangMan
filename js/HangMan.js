@@ -1,6 +1,6 @@
 import { UsingFetch } from './usingFetch.js'
 import Swal from '/dependencies/sweetalert2/src/sweetalert2.js'
-import { dropBody } from './queryFunctions.js'
+import DropBodyClass from './DropBodyClass.js'
 
 
 export class HangMan {
@@ -27,6 +27,7 @@ export class HangMan {
     this.wordStatusHint = ""
     this.randomSplittedWord = ""
     this.pass = ""
+    this.objDropBody = null
   }
   //Example
   async __str__() {
@@ -40,11 +41,16 @@ export class HangMan {
     return this.array_words
   }
 
+  dropingBody(){
+    const objDropBody = new DropBodyClass();
+    return objDropBody.dropBody();
+  }
+
   async fetchingData() {
     this.a = new UsingFetch
     this.fetch = await this.a.fetching();
-    this.array_words = this.fetch
-    return this.array_words;
+    this.array_wordsNaked = this.fetch
+    return this.array_wordsNaked;
   }
   // Este deberia ser await, pero siendo DOMContentLoaded el primer listener que se ejecuta, nada se ejecuta antes asi que nada mas espera.
   // Tiene un await implicito
@@ -117,7 +123,7 @@ export class HangMan {
             }
           })
         }, 3000);
-        dropBody();
+        this.dropingBody();
       } else {
         Swal.fire({
           title: '<h3> Ups, esa letra no existe en la palabra!! </h3>'
@@ -210,7 +216,7 @@ export class HangMan {
           </tbody>
         </table>
      `;
-     //changing button properties and content
+      //changing button properties and content
       this.hintButton.innerHTML = `${this.attempts - this.countHint} Hints left!`
       this.hintButton.classList.remove("btn-warning");
       this.hintButton.classList.add("btn-danger");
@@ -244,7 +250,7 @@ export class HangMan {
           </tbody>
         </table>
       `;
-     //changing button properties and content
+      //changing button properties and content
       this.hintButton.innerHTML = `${this.attempts - this.countHint} Hints left!`
       this.hintButton.classList.remove("btn-danger");
       this.hintButton.classList.add("btn-secondary");
