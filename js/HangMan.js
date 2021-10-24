@@ -1,5 +1,5 @@
 import { UsingFetch } from './UsingFetch.js'
-import Swal from '/dependencies/sweetalert2/src/sweetalert2.js'
+import Swal from '../dependencies/sweetalert2/src/sweetalert2.js'
 import DropBodyClass from './DropBodyClass.js'
 
 
@@ -12,11 +12,13 @@ export class HangMan {
     this.array_words = []
     this.array_wordsNaked = []
     this.randomWord = ""
+    this.wordStatusHint = ""
     this.new_splitted_array = []
-    this.count = 0
+    this.randomSplittedWord = ""
+    this.countHangMan = 0
     this.countHint = 0
     this.attempts = 3
-    this.a = null
+    this.newUsingFetchObject = null
     this.fetch = null
     this.wordStatus = ""
     this.word = ""
@@ -24,9 +26,6 @@ export class HangMan {
     this.randomDefinitionWiky = ""
     this.randomDefinitionWikti = ""
     this.firstLetter = ""
-    this.wordStatusHint = ""
-    this.randomSplittedWord = ""
-    this.pass = ""
     this.objDropBody = null
   }
   //Example
@@ -41,32 +40,35 @@ export class HangMan {
     return this.array_words
   }
 
-  dropingBody(){
+  dropingBody() {
     const objDropBody = new DropBodyClass();
     return objDropBody.dropBody();
   }
 
   async fetchingData() {
-    this.a = new UsingFetch
-    this.fetch = await this.a.fetching();
+    this.newUsingFetchObject = new UsingFetch
+    this.fetch = await this.newUsingFetchObject.fetching();
     this.array_wordsNaked = this.fetch
     return this.array_wordsNaked;
   }
   // Este deberia ser await, pero siendo DOMContentLoaded el primer listener que se ejecuta, nada se ejecuta antes asi que nada mas espera.
   // Tiene un await implicito
+  // formulario and hintbutton must take a callback function
+  // para que resuelva y no quede pending
   eventListeners() {
     document.addEventListener('DOMContentLoaded', async () => {
-      this.pass = await this.randomArray() // definimos un array especifico cuando el documento es cargado
+      this.array_words = await this.randomArray() // definimos un array especifico cuando el documento es cargado
       this.onLoadShowLines()
-      this.formulario.addEventListener('submit', () => {
-        this.letterHandler(this.pass)
+      this.formulario.addEventListener('submit', (e) => {
+        e.preventDefault(); // let's prevent going to the top
+        this.letterHandler(this.array_words)
       });
-      this.hintButton.addEventListener('click', () => this.hintButtonHandler(this.pass));
+      this.hintButton.addEventListener('click', () => this.hintButtonHandler(this.array_words));
     })
   }
 
   onLoadShowLines() {
-    this.wordStatus = this.pass.word.split("").map(lt => (this.guessed.indexOf(lt) >= 0 ? lt : " _ ")).join('');
+    this.wordStatus = this.array_words.word.split("").map(lt => (this.guessed.indexOf(lt) >= 0 ? lt : " _ ")).join('');
     return document.getElementById('wordToGuess').innerHTML = `
        ${this.wordStatus}
       `;
@@ -97,8 +99,8 @@ export class HangMan {
     }
   }
 
-  checker(arrayWords, letter) {
-    this.array_words = arrayWords;
+  checker(array_words, letter) {
+    this.array_words = array_words;
     this.randomWord = this.array_words.word
     this.new_splitted_array = this.randomWord.split("")
     console.log(this.randomWord)
@@ -107,12 +109,12 @@ export class HangMan {
       this.guessed.indexOf(letter) === -1 ? this.guessed.push(letter) : null; // Si ya existe, null
       this.guessedWord(this.randomWord);
     } else {
-      if (this.count > 8) {
+      if (this.countHangMan > 8) {
         this.formulario.style.marginTop = "50px";
         setTimeout(() => {
           Swal.fire({
             title: '<span style="color: white">You lost!</span>',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#00AAF0',
             width: 400,
             padding: '3em',
             allowOutsideClick: false,
@@ -126,25 +128,28 @@ export class HangMan {
         this.dropingBody();
       } else {
         Swal.fire({
+          confirmButtonColor: '#00AAF0',
           title: '<h3> Ups, esa letra no existe en la palabra!! </h3>'
         })
-        this.linesArray[this.count].style.visibility = "visible";
-        this.count++;
+        this.linesArray[this.countHangMan].style.visibility = "visible";
+        this.countHangMan++;
       }
     }
   }
 
-  async letterHandler(argument) {
-    this.array_words = argument
+  letterHandler(array_words) {
+    this.array_words = array_words
     this.letter = document.getElementById("letter").value
 
     if (this.letter.length === 0 || this.letter.includes(" ")) {
       Swal.fire({
+        confirmButtonColor: '#00AAF0',
         title: '<h3> Ups, no escribiste nada</h3>'
       })
     }
     else if (this.letter.length > 1) {
       Swal.fire({
+        confirmButtonColor: '#00AAF0',
         title: '<h3> Ups, Solo letras, no frases, ni numeros</h3>'
       })
     } else {
@@ -153,9 +158,9 @@ export class HangMan {
     this.formulario.reset();
   }
 
-  hintButtonHandler(argument) {
+  hintButtonHandler(array_words) {
     this.countHint++
-    this.array_words = argument
+    this.array_words = array_words
     this.randomDefinitionWiky = this.array_words.url_wikipedia_definition
     this.randomDefinitionWikti = this.array_words.url_wiktionary_definition
     this.firstLetter = this.array_words.word.charAt(0)
@@ -256,7 +261,10 @@ export class HangMan {
       this.hintButton.classList.add("btn-secondary");
     }
     if (this.countHint > 3) {
-      Swal.fire('Sorry folk, no more hints :(')
+      Swal.fire({
+        confirmButtonColor: '#00AAF0',
+        title: 'Sorry folk, no more hints :('
+      })
     }
   }
 

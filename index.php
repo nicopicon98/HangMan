@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="./dependencies/sweetalert2/dist/sweetalert2.css"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/custom.css" />
-    <title>Hangman</title>
-  </head>
-  <body>
+<?php include 'components/header.php'?>
+<div class="container shadow-lg p-3 my-5 bg-body rounded">
     <div class="text-center pt-3 mt-3">
       <h1 style="color: black; font-size: 4em; font-weight: bold">
         Welcome to HANGMAN
@@ -70,17 +56,10 @@
       <div class="word text-center pt-5">
         <h1 id="wordToGuess"></h1>
       </div>
-      <button type="submit" class="btn btn-success mt-5" id="hintButton">
+      <button type="submit" class="btn btn-primary mt-5" id="hintButton">
         Hint!
       </button>
       <div class="word text-center pt-5" id="hint"></div>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.min.js"
-      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="//cdn.jsdelivr.net/velocity/1.5/velocity.min.js"></script>
-    <script type="module" src="js/app.js"></script>
-  </body>
-</html>
+</div>
+<?php include 'components/footer.php'?>
